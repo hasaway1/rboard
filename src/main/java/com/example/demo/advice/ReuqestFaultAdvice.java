@@ -1,7 +1,5 @@
 package com.example.demo.advice;
 
-import com.example.demo.exception.*;
-import jakarta.validation.*;
 import org.springframework.http.*;
 import org.springframework.web.*;
 import org.springframework.web.bind.*;

@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.*;
-import java.util.*;
 
 // @Validated는 스프링 검증, 없으면 자바 검증 수행
 @Validated

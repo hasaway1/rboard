@@ -2,7 +2,6 @@ package com.example.demo.dao;
 
 import com.example.demo.dto.*;
 import com.example.demo.entity.*;
-import jakarta.validation.constraints.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.*;
