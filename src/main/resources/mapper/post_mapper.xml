@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.PostDao">
+	<!-- select sql은 반드시 결과값의 타입을 지정해야 한다. 지정하지 않으면 resultMap이 없다는 오류 발생 -->
+	<select id="count" resultType="int">
+		select count(*) from posts
+	</select>
+
+	<!-- resultType에 사용자 정의 클래스를 적을 때는 FQN으로 -->
+	<select id="findByPno" resultType="com.example.demo.entity.Post">
+		select * from posts where pno=#{pno}
+	</select>
+
+	<insert id="save">
+		<selectKey resultType="int" keyProperty="pno" order="BEFORE">
+			select posts_seq.nextval from dual
+		</selectKey>
+		insert into posts values(#{pno}, #{title}, #{content}, #{writeTime},#{writer},#{readCnt},#{goodCnt},#{badCnt})
+	</insert>
+
+	<select id="findAll" resultType="com.example.demo.entity.Post">
+		<!--
+		select * from posts order by pno desc offset 시작위치 rows fetch next 개수 rows only
+		pageno==1         offset 0 rows fetch next 10 rows only
+  		pageno==2         offset 10 rows fetch next 10 rows only
+  		-->
+  		select pno, title, writer, write_time, read_cnt from posts order by pno
+		desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+	</select>
+
+	<update id="increaseReadCnt">
+		update posts set read_cnt=read_cnt+1 where pno=#{pno}
+	</update>
+
+	<resultMap id="mapForRead" type="com.example.demo.dto.PostDto$Read">
+		<!-- pno 컬럼을 읽어서 map또는 Dto에 pno란 이름으로 추가해라 -->
+		<id property="pno" column="pno" />
+		<result property="title" column="title" />
+		<result property="content" column="p_content" javaType="java.lang.String" jdbcType="CLOB"  />
+		<result property="writer" column="p_writer" />
+		<result property="writeTime" column="p_write_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" />
+		<result property="readCnt" column="read_cnt" />
+		<result property="goodCnt" column="good_cnt" />
+		<result property="badCnt" column="bad_cnt" />
+		<!-- 자바에서 Collection은 List의 부모 -->
+		<!-- Collection<Comment> comments = new List() -->
+		<collection property="comments" ofType="com.example.demo.entity.Comment" javaType="java.util.List" >
+			<id property="cno" column="c_cno" />
+			<result property="content" column="c_content" />
+			<result property="writer" column="c_writer" />
+			<result property="writeTime" column="c_write_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" />
+			<result property="pno" column="c_pno" />
+		</collection>
+	</resultMap>
+
+	<select id="findByPnoWithComments" resultMap="mapForRead">
+		select
+		    p.pno, p.title, p.content as p_content, p.writer as p_writer, p.write_time as p_write_time, p.read_cnt, p.good_cnt, p.bad_cnt,
+		    c.cno as c_cno, c.writer as c_writer, c.content as c_content, c.write_time as c_write_time, c.pno as c_pno
+		from posts p left outer join comments c on p.pno=c.pno where p.pno=#{pno}
+	</select>
+
+
+</mapper>
