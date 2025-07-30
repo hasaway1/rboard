@@ -8,7 +8,7 @@ import org.springframework.web.multipart.*;
 import java.io.*;
 import java.util.*;
 
-public class Demo6Util {
+public class RBoardUtil {
   // try ~ catch는 예외 처리 작업
   // throws는 예외를 처리하지 않고, 일시킨 사람에게 떠넘긴다
   // 지금은 서비스에서 이미지를 base64로 바꿔라...그러면 문제가 발생하면 대처도 서비스가 해야지

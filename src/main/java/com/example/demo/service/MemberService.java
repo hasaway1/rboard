@@ -6,17 +6,14 @@ import com.example.demo.entity.*;
 import com.example.demo.util.*;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
-import jakarta.validation.*;
 import org.apache.commons.lang3.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.*;
 import org.springframework.security.crypto.password.*;
-import org.springframework.stereotype.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.*;
 
 import java.io.*;
-import java.security.*;
 import java.util.*;
 
 @Service
@@ -57,12 +54,12 @@ public class MemberService {
     String base64Image = "";
     try {
       if(프사_존재) {
-        base64Image = Demo6Util.convertToBase64(profile);
+        base64Image = RBoardUtil.convertToBase64(profile);
       } else {
-        base64Image = Demo6Util.getDefaultBase64Profile();
+        base64Image = RBoardUtil.getDefaultBase64Profile();
       }
     } catch(IOException e) {
-      base64Image = Demo6Util.getDefaultBase64Profile();
+      base64Image = RBoardUtil.getDefaultBase64Profile();
     }
     // 3. 암호화된 비밀번호, base64이미지, 가입 코드를 가지고 dto를 member로 변환(계정을 비활성화)
     String code = RandomStringUtils.secure().nextAlphanumeric(20);
@@ -103,7 +100,7 @@ public class MemberService {
   public MemberDto.Read changeProfile(MultipartFile profile, String loginId) {
     String base64Image = "";
     try {
-      base64Image = Demo6Util.convertToBase64(profile);
+      base64Image = RBoardUtil.convertToBase64(profile);
       memberDao.updateProfile(base64Image, loginId);
     } catch(IOException e) {
       System.out.println(e.getMessage());

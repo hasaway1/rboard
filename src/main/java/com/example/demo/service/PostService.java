@@ -23,7 +23,7 @@ public class PostService {
   public PostDto.Pages findAll(int pageno, int pagesize) {
     int totalcount = postDao.count();
     List<Post> posts = postDao.findAll(pageno, pagesize);
-    return Demo6Util.getPages(pageno, pagesize, BLOCK_SIZE, totalcount, posts);
+    return RBoardUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalcount, posts);
   }
 
   public PostDto.Read findByPno(int pno, String loginId) {
