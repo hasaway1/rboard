@@ -11,8 +11,8 @@ import java.time.*;
 public class MemberDto {
   @Data
   public static class UsernameCheck {
-    //@NotEmpty
-    //@Pattern(regexp="^[a-z0-9]{6,10}$")
+    @NotEmpty(message="아이디는 필수입력입니다")
+    @Pattern(regexp="^[a-z0-9]{6,10}$", message="아이디는 소문자와 숫자 6~10자입니다")
     private String username;
   }
 

@@ -19,7 +19,6 @@ import org.springframework.web.multipart.*;
 import java.security.*;
 import java.util.*;
 
-@Validated
 @Controller
 public class MemberController {
   @Autowired
@@ -28,7 +27,7 @@ public class MemberController {
   @PreAuthorize("isAnonymous()")
   @Operation(summary= "아이디 확인", description="아이디가 사용가능한 지 확인")
   @GetMapping("/api/members/check-username")
-  public ResponseEntity<String> checkUsername(@ModelAttribute @Valid MemberDto.UsernameCheck dto, BindingResult br) {
+  public ResponseEntity<String> checkUsername(@ModelAttribute @Valid MemberDto.UsernameCheck dto) {
     boolean result = service.checkUsername(dto);
     if(result)
       return ResponseEntity.ok("사용가능합니다");

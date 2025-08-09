@@ -15,6 +15,12 @@ public class ReuqestFaultAdvice {
     return ResponseEntity.status(400).body(e.getMessage());
   }
 
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<String> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+    String message = e.getAllErrors().get(0).getDefaultMessage();
+    return ResponseEntity.status(409).body(message);
+  }
+
   // 파라미터 타입이 잘못된 400(int가 필요한데 /post?pno=aaa)
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<String> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
