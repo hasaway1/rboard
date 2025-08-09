@@ -9,18 +9,6 @@ import org.springframework.web.servlet.resource.*;
 
 @RestControllerAdvice
 public class ReuqestFaultAdvice {
-  // "/post?pno=100과 같이 필수 파라미터가 있지만" 생략된 400(/post)
-  @ExceptionHandler(MissingServletRequestParameterException.class)
-  public ResponseEntity<String> missingServletRequestParameterException(MissingServletRequestParameterException e) {
-    return ResponseEntity.status(400).body(e.getMessage());
-  }
-
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<String> methodArgumentNotValidException(MethodArgumentNotValidException e) {
-    String message = e.getAllErrors().get(0).getDefaultMessage();
-    return ResponseEntity.status(409).body(message);
-  }
-
   // 파라미터 타입이 잘못된 400(int가 필요한데 /post?pno=aaa)
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<String> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
@@ -38,7 +26,7 @@ public class ReuqestFaultAdvice {
     String[] messages = e.getMessage().split(" ");
     // 분리된 문자열 배열의 마지막 원소를 꺼낸다 : "posts/postaaa"
     String url = messages[messages.length-1];
-    // 점을 제거하자
+    // 점을 제거
     url = url.substring(0, url.length()-1);
     return ResponseEntity.status(404).body("잘못된 주소 : " + url);
   }

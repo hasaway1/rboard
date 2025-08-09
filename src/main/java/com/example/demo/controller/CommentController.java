@@ -15,25 +15,22 @@ import org.springframework.web.bind.annotation.*;
 import java.security.*;
 import java.util.*;
 
-@Validated
+@Secured("ROLE_USER")
 @RestController
 public class CommentController {
     @Autowired
     private CommentService service;
 
     @Operation(summary="댓글 작성", description="댓글을 작성하면 글의 모든 댓글을 출력")
-    @Secured("ROLE_USER")
     @PostMapping("/api/comments/new")
-    public ResponseEntity<List<Comment>> write(@Valid CommentDto.Craete dto, BindingResult br, Principal principal) {
+    public ResponseEntity<List<Comment>> write(@Valid CommentDto.Craete dto, Principal principal) {
         return ResponseEntity.ok(service.write(dto, principal.getName()));
     }
 
     @Operation(summary="댓글 삭제", description="댓글을 작성하면 글의 모든 댓글을 출력")
-    @Secured("ROLE_USER")
     @DeleteMapping("/api/comments")
-    public ResponseEntity<List<Comment>> delete(@Valid CommentDto.Delete dto, BindingResult br, Principal principal) {
+    public ResponseEntity<List<Comment>> delete(@Valid CommentDto.Delete dto, Principal principal) {
         List<Comment> comments =  service.delete(dto, principal.getName());
-        System.out.println(comments);
         return ResponseEntity.ok(comments);
     }
 }

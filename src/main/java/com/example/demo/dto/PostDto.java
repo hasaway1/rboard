@@ -25,9 +25,9 @@ public class PostDto {
   // 글을 작성하는 DTO
   @Data
   public static class Write {
-    @NotEmpty
+    @NotEmpty(message="제목을 입력하세요")
     private String title;
-    @NotEmpty
+    @NotEmpty(message="내용을 입력하세요")
     private String content;
 
     public Post toEntity(String loginId) {
@@ -38,11 +38,11 @@ public class PostDto {
   // 글 변경 DTO
   @Data
   public static class Update {
-    @NotNull
+    @NotNull(message="글번호가 없습니다")
     private Integer pno;
-    @NotEmpty
+    @NotEmpty(message="제목을 입력하세요")
     private String title;
-    @NotEmpty
+    @NotEmpty(message="내용을 입력하세요")
     private String content;
   }
 

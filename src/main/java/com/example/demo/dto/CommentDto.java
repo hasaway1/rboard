@@ -10,9 +10,9 @@ import java.time.*;
 public class CommentDto {
     @Data
     public static class Craete {
-        @NotNull
+        @NotNull(message="글번호가 없습니다")
         private Integer pno;
-        @NotEmpty
+        @NotEmpty(message="내용을 입력하세요")
         private String content;
 
         public Comment toEntity(String loginId) {
@@ -22,9 +22,9 @@ public class CommentDto {
 
     @Data
     public static class Delete {
-        @NotNull
+        @NotNull(message="댓글 번호가 없습니다")
         private Integer cno;
-        @NotNull
+        @NotNull(message="글번호가 없습니다")
         private Integer pno;
     }
 }
