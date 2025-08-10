@@ -8,8 +8,6 @@ import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.access.annotation.*;
-import org.springframework.validation.*;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.*;

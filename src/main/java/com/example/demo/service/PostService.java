@@ -64,7 +64,7 @@ public class PostService {
     postDao.delete(pno);
   }
 
-  public int 추천(int pno, String loginId) {
+  public int good(int pno, String loginId) {
     // 비로그인이면 추천할 수 없다 -> @PreAuthrize()로 필터링되서 여기까지 안온다(X)
     // 자기가 작성한 글은 추천할 수 없다
     // 자기가 작성하지 않은 글은 추천할 수 있다

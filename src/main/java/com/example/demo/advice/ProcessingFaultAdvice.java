@@ -7,25 +7,22 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-import java.util.Iterator;
-import java.util.Set;
-
 @RestControllerAdvice
 public class ProcessingFaultAdvice {
   // 500 : 처리 중 오류. 정말 다양한 이유로 발생
 
+  // 바인딩 시점에서 검증
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<String> methodArgumentNotValidException(MethodArgumentNotValidException e) {
     System.out.println("method");
     return ResponseEntity.status(409).body(e.getAllErrors().get(0).getDefaultMessage());
   }
 
-//  // DTO 검증 실패에 대한 예외 처리
-//  @ExceptionHandler(ConstraintViolationException.class)
-//  public ResponseEntity<String> constraintViolationException(ConstraintViolationException e) {
-//    System.out.println("constraint");
-//    return ResponseEntity.status(409).body(e.getMessage());
-//  }
+  // 바인딩 이후 예외 처리 + 파라미터 검증에서 경우에 따라 발생할 수 있음
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<String> constraintViolationException(ConstraintViolationException e) {
+    return ResponseEntity.status(409).body(e.getMessage());
+  }
 
   // 파라미터 검증 실패에 대한 예외 처리
   @ExceptionHandler(HandlerMethodValidationException.class)

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.*;
 import org.springframework.stereotype.*;
-import org.springframework.validation.*;
 import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
@@ -37,7 +36,7 @@ public class MemberController {
 
   @PreAuthorize("isAnonymous()")
   @Operation(summary="회원가입", description="회원가입 및 프로필 사진 업로드")
-  @PostMapping(value="/api/members/new", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping("/api/members/new")
   public ResponseEntity<Member> signup(@ModelAttribute @Valid MemberDto.Create dto) {
     Member member = service.signup(dto);
     return ResponseEntity.ok(member);
@@ -53,7 +52,7 @@ public class MemberController {
     return ResponseEntity.status(HttpStatus.CONFLICT).body("사용자를 찾을 수 없습니다");
   }
 
-   @PreAuthorize("isAnonymous()")
+  @PreAuthorize("isAnonymous()")
   @Operation(summary="아이디 찾기", description="가입한 이메일로 아이디를 찾는다")
   @GetMapping("/api/members/username")
   public ResponseEntity<String> searchUsername(@RequestParam @NotEmpty(message="이메일은 필수입력입니다") @Email(message="이메일을 입력하세요") String email) {
@@ -91,7 +90,7 @@ public class MemberController {
     return ResponseEntity.ok(dto);
   }
 
-  //@PreAuthorize("isAuthenticated()")
+  @PreAuthorize("isAuthenticated()")
   @Operation(summary = "프사 변경", description = "프사를 변경")
   @PutMapping("/api/members/profile")
   public ResponseEntity<MemberDto.Read> changeProfile(@RequestParam(required=false) @NotNull(message="프로필 사진은 필수입력입니다") MultipartFile profile, Principal principal) {
